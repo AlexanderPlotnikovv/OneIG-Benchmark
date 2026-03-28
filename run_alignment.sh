@@ -7,10 +7,10 @@ start_time=$(date +%s)
 MODE=EN
 
 # image_root_dir
-IMAGE_DIR=""
+IMAGE_DIR="images"
 
 # model list
-MODEL_NAMES=("gpt-4o" "imagen4")
+MODEL_NAMES=("sd-3_5-medium" "sd-3_5-medium-a&e")
 # model_names=("gpt-4o" "imagen4")
 
 # image grid
@@ -28,7 +28,7 @@ python -m scripts.alignment.alignment_score \
   --image_dirname "$IMAGE_DIR" \
   --model_names "${MODEL_NAMES[@]}" \
   --image_grid "${IMAGE_GRID[@]}" \
-  --class_items "anime" "human" "object" \
+  --class_items "object" \
 
 # In ZH mode, the class_items list can be extended to include "multilingualism".
 
