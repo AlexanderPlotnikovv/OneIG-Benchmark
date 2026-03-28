@@ -6,11 +6,11 @@ hf_token = os.environ.get("HF_TOKEN")
 
 model = StableDiffusion3Pipeline.from_pretrained(
     "stabilityai/stable-diffusion-3.5-medium",
-    torch_dtype=torch.float16
-).to("cuda")
+    torch_dtype=torch.float16,
+)
+model.enable_model_cpu_offload()
 
 
 def inference(prompt):
-    torch.cuda.empty_cache()
     image = model(prompt).images[0]
     return image
