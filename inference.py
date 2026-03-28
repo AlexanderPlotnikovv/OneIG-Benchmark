@@ -11,5 +11,6 @@ model = StableDiffusion3Pipeline.from_pretrained(
 
 
 def inference(prompt):
+    torch.cuda.empty_cache()
     image = model(prompt).images[0]
     return image
