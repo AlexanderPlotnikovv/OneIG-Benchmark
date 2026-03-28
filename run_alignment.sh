@@ -27,7 +27,7 @@ python -m scripts.alignment.alignment_score \
   --mode "$MODE" \
   --image_dirname "$IMAGE_DIR" \
   --model_names "${MODEL_NAMES[@]}" \
-  --image_grid "${IMAGE_GRID[@]}" \
+  --image_grid "${IMAGE_GRIDS[@]}" \
   --class_items "object" \
 
 # In ZH mode, the class_items list can be extended to include "multilingualism".

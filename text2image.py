@@ -36,7 +36,7 @@ image_dir = "images"
 model_name = "xxx"
 
 # you can choose the language mode here.
-df = pd.read_csv("OneIG-Bench.csv", dtype=str)[690:697]
+df = pd.read_csv("OneIG-Bench.csv", dtype=str)[690:693]
 # df = pd.read_csv("OneIG-Bench-ZH.csv", dtype=str)
 
 # you can change the grid here. (2, 2), (1, 4), (3, 3) ...
