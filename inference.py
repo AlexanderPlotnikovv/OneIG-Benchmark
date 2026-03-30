@@ -34,7 +34,7 @@ elif model_name == "sd-3_5-medium-a&e":
     )
 
     model = load_model(config)
-
+model.enable_model_cpu_offload()
 
 def inference(prompt):
     image = model(prompt).images[0]
