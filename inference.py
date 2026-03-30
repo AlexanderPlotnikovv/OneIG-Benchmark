@@ -17,14 +17,15 @@ if model_name == "sd-3_5-medium":
         "stabilityai/stable-diffusion-3.5-medium",
         torch_dtype=torch.float16,
     )
+    model.enable_model_cpu_offload()
+
 elif model_name == "sd-3_5-medium-a&e":
     NUM_DIFFUSION_STEPS = 50
     GUIDANCE_SCALE = 5.5
     SCALE_FACTOR = 80
-    MAX_NUM_WORDS = 77
 
     config = RunConfig(
-        prompt="a cat and a frog",
+        prompt="",
         model_id="stabilityai/stable-diffusion-3.5-medium",
         hf_token=hf_token,
         n_inference_steps=NUM_DIFFUSION_STEPS,
@@ -34,8 +35,29 @@ elif model_name == "sd-3_5-medium-a&e":
     )
 
     model = load_model(config)
-model.enable_model_cpu_offload()
+
 
 def inference(prompt):
-    image = model(prompt).images[0]
+    if model_name == "sd-3_5-medium":
+        image = model(prompt).images[0]
+
+    elif model_name == "sd-3_5-medium-a&e":
+        config.prompt = prompt
+
+        g = torch.Generator('cpu').manual_seed(42)
+
+        controller = SD3AttentionStore()
+
+        token_indices = config.token_indices if config.token_indices is not None \
+            else get_indices_to_alter_sd3(model, prompt)
+
+        image = run_on_prompt(
+            prompt=prompt,
+            model=model,
+            controller=controller,
+            token_indices=token_indices,
+            seed=g,
+            config=config,
+        )
+
     return image
