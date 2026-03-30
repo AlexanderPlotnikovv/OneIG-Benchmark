@@ -59,7 +59,7 @@ def inference(prompt):
 
     elif model_name == "sd-3_5-medium-a&e":
         config.prompt = prompt
-        g = torch.Generator('cpu').manual_seed(42)
+        g = torch.Generator('cpu').manual_seed(torch.randint(0, 2 ** 32, (1,)).item())
         controller = SD3AttentionStore()
 
         token_indices = auto_get_indices(model, prompt)
