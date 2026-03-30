@@ -20,7 +20,7 @@ class Qwen2_5VLBatchInferencer:
                     dtype=torch.bfloat16, 
                     use_flash_attention: bool = True):
         
-        attn_impl = "flash_attention_2" if use_flash_attention else "eager"
+        attn_impl = "flash_attention_2" if use_flash_attention else "sdpa"
         
         from transformers import Qwen2_5_VLForConditionalGeneration
         

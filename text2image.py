@@ -73,4 +73,4 @@ for idx, row in df.iterrows():
     
     file_path = megfile.smart_path_join(image_dir, class_item[row['category']], model_name, f"{row['id']}.webp")
     with megfile.smart_open(file_path, "wb") as f:
-        image_gallery.save(f)  
+        image_gallery.save(f)
