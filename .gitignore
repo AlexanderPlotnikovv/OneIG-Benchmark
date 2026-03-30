@@ -4,4 +4,4 @@
 __pycache__
 **/__pycache__/
 .env
-our_models/guidance.ipynb
+guidance.ipynb
