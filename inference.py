@@ -37,19 +37,32 @@ elif model_name == "sd-3_5-medium-a&e":
     model = load_model(config)
 
 
+def auto_get_indices(model, prompt):
+    """Автоматически выбирает индексы существительных/прилагательных"""
+    tokens = model.tokenizer(prompt)['input_ids']
+    token_words = {idx: model.tokenizer.decode(t) for idx, t in enumerate(tokens)}
+
+    # Пропускаем спецтокены и знаки препинания
+    skip = {'<|startoftext|>', '<|endoftext|>', ',', '.', '!', '?', 'a', 'an', 'the', 'and', 'or', 'with', 'in', 'on',
+            'of'}
+
+    indices = [idx for idx, word in token_words.items()
+               if word.strip().lower() not in skip and word.strip()]
+
+    print(f"Auto-selected tokens: {[(i, token_words[i]) for i in indices]}")
+    return indices
+
+
 def inference(prompt):
     if model_name == "sd-3_5-medium":
         image = model(prompt).images[0]
 
     elif model_name == "sd-3_5-medium-a&e":
         config.prompt = prompt
-
         g = torch.Generator('cpu').manual_seed(42)
-
         controller = SD3AttentionStore()
 
-        token_indices = config.token_indices if config.token_indices is not None \
-            else get_indices_to_alter_sd3(model, prompt)
+        token_indices = auto_get_indices(model, prompt)
 
         image = run_on_prompt(
             prompt=prompt,
