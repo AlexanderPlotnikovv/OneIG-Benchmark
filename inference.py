@@ -10,7 +10,7 @@ from utils.ptp_utils import AttentionStore
 
 hf_token = os.environ.get("HF_TOKEN")
 
-model_name = "sd-3_5-medium"
+model_name = "sd-3_5-medium-a&e"
 
 if model_name == "sd-3_5-medium":
     model = StableDiffusion3Pipeline.from_pretrained(

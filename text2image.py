@@ -33,7 +33,7 @@ class_item = {
 }
 
 image_dir = "images"
-model_name = "sd-3_5-medium"
+model_name = "sd-3_5-medium-a&e"
 
 # you can choose the language mode here.
 df = pd.read_csv("OneIG-Bench.csv", dtype=str)[690:693]
