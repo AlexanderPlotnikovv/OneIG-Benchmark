@@ -16,7 +16,7 @@ if model_name == "sd-3_5-medium":
     model = StableDiffusion3Pipeline.from_pretrained(
         "stabilityai/stable-diffusion-3.5-medium",
         torch_dtype=torch.float16,
-    )
+    ).to("cuda")
 elif model_name == "sd-3_5-medium-a&e":
     NUM_DIFFUSION_STEPS = 50
     GUIDANCE_SCALE = 5.5
