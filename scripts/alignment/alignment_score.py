@@ -15,7 +15,7 @@ import datetime
 current_time = datetime.datetime.now()
 formatted_time = current_time.strftime("%Y-%m-%d_%H-%M-%S")
 
-inferencer = Qwen2_5VLBatchInferencer("Qwen/Qwen2.5-VL-7B-Instruct", use_flash_attention=False)
+inferencer = Qwen2_5VLBatchInferencer("Qwen/Qwen2.5-VL-7B-Instruct")
 
 def alignment_score(img_path, questions, dependencies, img_grid, cache_dir):
     score = {}
