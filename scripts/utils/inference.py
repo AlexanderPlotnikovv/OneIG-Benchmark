@@ -73,9 +73,9 @@ class Qwen2_5VLBatchInferencer:
         return output_texts
 
     def infer_semantic(self, images_path: list, question: str):
-        messages = []
+        results = []
         for image_path in images_path:
-            messages.append([
+            messages = [[
                 {
                     "role": "user",
                     "content": [
@@ -83,13 +83,16 @@ class Qwen2_5VLBatchInferencer:
                         {"type": "text", "text": f"{question}. Please answer 'Yes' or 'No' only."}
                     ],
                 }
-            ])
-        return self.batch_inference(messages)
+            ]]
+            ans = self.batch_inference(messages)
+            results.extend(ans)
+            torch.cuda.empty_cache()
+        return results
 
     def infer_ocr(self, images_path: list, max_new_tokens: int = 128):
-        messages = []
+        results = []
         for image_path in images_path:
-            messages.append([
+            messages = [[
                 {
                     "role": "user",
                     "content": [
@@ -97,8 +100,11 @@ class Qwen2_5VLBatchInferencer:
                         {"type": "text", "text": self.TEXT_PROMPT}
                     ],
                 }
-            ])
-        return self.batch_inference(messages, max_new_tokens=max_new_tokens)
+            ]]
+            ans = self.batch_inference(messages, max_new_tokens=max_new_tokens)
+            results.extend(ans)
+            torch.cuda.empty_cache()
+        return results
     
 
 class CSDStyleEmbedding:
