@@ -9,8 +9,9 @@ from torchvision import transforms
 from transformers import (AutoModel, AutoProcessor, AutoTokenizer, AutoConfig,
                             CLIPImageProcessor, CLIPVisionModelWithProjection)
 from qwen_vl_utils import process_vision_info
+from transformers import BitsAndBytesConfig
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 torch.manual_seed(42) 
 torch.cuda.manual_seed_all(42)
 
@@ -18,18 +19,24 @@ class Qwen2_5VLBatchInferencer:
     def __init__(self, model_path: str = "Qwen/Qwen2.5-VL-7B-Instruct", 
                     device: str = "cuda", 
                     dtype=torch.bfloat16, 
-                    use_flash_attention: bool = True):
+                    use_flash_attention: bool = False):
         
-        attn_impl = "flash_attention_2" if use_flash_attention else "sdpa"
+        attn_impl = "flash_attention_2" if use_flash_attention else "eager"
         
         from transformers import Qwen2_5_VLForConditionalGeneration
-        
+
+        quantization_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=torch.float16,
+        )
+
         self.model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
             model_path,
-            torch_dtype=dtype,
+            quantization_config=quantization_config,
             attn_implementation=attn_impl,
             device_map="auto",
         )
+
         self.processor = AutoProcessor.from_pretrained(model_path)
         self.device = torch.device(device)
         self.TEXT_PROMPT = (
