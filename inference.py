@@ -20,7 +20,7 @@ if model_name == "sd-3_5-medium":
     model.enable_model_cpu_offload()
 
 elif model_name == "sd-3_5-medium-a&e":
-    NUM_DIFFUSION_STEPS = 50
+    NUM_DIFFUSION_STEPS = 28
     GUIDANCE_SCALE = 5.5
     SCALE_FACTOR = 80
 
